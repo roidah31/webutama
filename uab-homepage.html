@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UAB - Universitas Adi Buana Surabaya</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1535;
+    --navy-mid: #0d1f4a;
+    --navy-light: #132460;
+    --gold: #f5b800;
+    --gold-light: #ffd84d;
+    --white: #ffffff;
+    --gray-light: #f4f6fb;
+    --gray-mid: #e8ecf4;
+    --text-muted: #7a8aab;
+    --accent-red: #e63946;
+    --card-radius: 14px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--white);
+    color: var(--navy);
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    background: transparent;
+    color: rgba(255,255,255,.9);
+    font-size: 12px;
+    padding: 6px 0 0;
+    border-bottom: none;
+  }
+  .topbar-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+  }
+  .topbar span { display: flex; align-items: center; gap: 6px; }
+  .topbar svg { width: 14px; height: 14px; flex-shrink: 0; color: rgba(255,255,255,.8); }
+
+  /* ── HERO WRAP ── */
+  .hero-wrap {
+    position: relative;
+    width: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ── SITE HEADER (melayang di atas hero) ── */
+  .site-header {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: rgba(10,21,53,.35);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .site-header.is-sticky {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    animation: slideDown .3s ease;
+    background: rgba(10,21,53,.95);
+  }
+  @keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to   { transform: translateY(0); }
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    background: transparent;
+    position: static;
+    z-index: 100;
+    box-shadow: none;
+    border-bottom: none;
+  }
+  .nav-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 64px;
+  }
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 8px;
+    text-decoration: none;
+  }
+  .logo-emblem {
+    width: 46px; height: 46px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 13px; color: var(--navy);
+    letter-spacing: -.5px;
+    flex-shrink: 0;
+  }
+  .logo-text { display: flex; flex-direction: column; line-height: 1; }
+  .logo-text b { color: var(--white); font-size: 15px; font-weight: 800; letter-spacing: .3px; }
+  .logo-text small { color: var(--gold); font-size: 9.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
+
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 2px;
+    flex: 1;
+    margin-left: 16px;
+  }
+  .nav-menu li a {
+    color: rgba(255,255,255,.88);
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 6px;
+    display: flex; align-items: center; gap: 4px;
+    transition: background .18s, color .18s;
+    white-space: nowrap;
+  }
+  .nav-menu li a:hover { background: rgba(255,255,255,.1); color: var(--gold); }
+  .nav-menu li a .chevron { font-size: 9px; opacity: .7; }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+  }
+  .nav-search {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 8px;
+    padding: 7px 12px;
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .nav-search:hover { background: rgba(255,255,255,.18); }
+  .nav-search svg { width: 15px; height: 15px; color: rgba(255,255,255,.7); }
+
+  .btn-pmb {
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 800;
+    font-size: 13px;
+    padding: 9px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    transition: background .18s, transform .18s;
+    white-space: nowrap;
+    letter-spacing: .2px;
+  }
+  .btn-pmb:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-pmb svg { width: 14px; height: 14px; }
+
+  .lang-flag {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 10px;
+    border-radius: 7px;
+    border: 1px solid rgba(255,255,255,.2);
+    cursor: pointer;
+    font-size: 11px; color: rgba(255,255,255,.75);
+    font-weight: 600;
+  }
+  .flag-icon { width: 22px; height: 14px; border-radius: 2px; overflow: hidden; display: flex; flex-direction: column; }
+  .flag-icon .r { background: #ce1126; flex: 1; }
+  .flag-icon .w { background: #fff; flex: 1; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 560px;
+    overflow: hidden;
+    margin: 0; padding: 0;
+  }
+  /* Fallback bg tampil saat video belum/tidak load */
+  .hero-video-container {
+    position: absolute; inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80') center/cover no-repeat;
+  }
+  .hero-video-container video {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%; min-height: 100%;
+    width: auto; height: auto;
+    object-fit: cover;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(10,21,53,.35) 0%, rgba(10,21,53,.55) 60%, rgba(10,21,53,.85) 100%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 64px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(245,184,0,.15);
+    border: 1px solid rgba(245,184,0,.4);
+    color: var(--gold);
+    font-size: 11.5px; font-weight: 700;
+    letter-spacing: 1.8px; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 20px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(4px);
+    width: fit-content;
+  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.8)} }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 62px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.05;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 24px rgba(0,0,0,.3);
+  }
+  .hero h1 span { color: var(--gold); }
+
+  .hero-sub {
+    color: rgba(255,255,255,.75);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: .3px;
+    margin-bottom: 32px;
+  }
+
+  /* ── PRODI SECTION (Auto Sigma) ── */
+  .autosigma {
+    background-color: #b8ddf0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.35) 1px, transparent 1px);
+    background-size: 32px 32px;
+    padding: 0;
+    overflow: hidden;
+  }
+  .autosigma-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 380px;
+    align-items: stretch;
+  }
+
+  /* Kiri: gambar maskot sebagai base, teks + tombol di atasnya */
+  .autosigma-left {
+    position: relative;
+    min-height: 380px;
+    overflow: hidden;
+  }
+  .autosigma-title-wrap {
+    position: absolute;
+    bottom: 80px;
+    left: 28px;
+    z-index: 2;
+  }
+  .as-kuliah {
+    font-size: 38px;
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 1;
+    font-style: italic;
+  }
+  .as-di-uab {
+    font-size: 52px;
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 1;
+    font-style: italic;
+  }
+  .as-di-uab .uab-text {
+    color: var(--navy);
+    -webkit-text-stroke: 2px var(--navy);
+  }
+  .as-auto {
+    font-size: 56px;
+    font-weight: 900;
+    color: #111;
+    line-height: .95;
+    letter-spacing: -1px;
+    font-style: italic;
+  }
+  .as-sigma {
+    font-size: 64px;
+    font-weight: 900;
+    color: #111;
+    line-height: .9;
+    letter-spacing: -2px;
+    font-style: italic;
+  }
+  .as-deco { font-style: normal; font-size: .6em; vertical-align: middle; }
+
+  /* Gambar maskot mengisi penuh kolom kiri */
+  .char-left-img {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  .char-left-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+    display: block;
+  }
+  /* Placeholder saat gambar belum ada */
+  .char-placeholder {
+    width: 100%; height: 100%;
+    background: rgba(255,255,255,.2);
+    border: 2px dashed rgba(10,21,53,.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: rgba(10,21,53,.4);
+    text-transform: uppercase; letter-spacing: 1px; text-align: center;
+  }
+
+  /* Tombol overlay di atas gambar maskot */
+  .btn-daftar {
+    display: inline-flex; align-items: center; gap: 6px;
+    position: absolute;
+    bottom: 28px;
+    left: 28px;
+    z-index: 3;
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 800; font-size: 14px;
+    padding: 13px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: background .18s, transform .18s;
+    box-shadow: 0 4px 16px rgba(245,184,0,.4);
+  }
+  .btn-daftar:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* Kanan: dropdown jurusan */
+  .autosigma-right {
+    padding: 36px 40px 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+  }
+  .spill-heading {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .spill-heading em { font-style: italic; }
+
+  .jurusan-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: opacity .18s, transform .18s;
+    gap: 12px;
+  }
+  .jurusan-row:hover { opacity: .88; transform: translateX(3px); }
+  .jurusan-row .arrow {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(0,0,0,.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; flex-shrink: 0;
+  }
+  .jr-outline {
+    background: #fff;
+    color: var(--navy);
+    border: 1.5px solid #ccd0e0;
+  }
+  .jr-outline .arrow { background: rgba(10,21,53,.12); }
+  .jr-red    { background: #d63030; color: #fff; }
+  .jr-yellow { background: #e8a800; color: var(--navy); }
+  .jr-green  { background: #3aaa6a; color: #fff; }
+  .jr-dark   { background: #1a2a50; color: #fff; }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px; font-weight: 700; color: var(--navy);
+  }
+  .section-header h2 span { color: var(--gold); }
+  .section-header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  .section-eyebrow {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 6px;
+  }
+  .section-eyebrow-icon {
+    width: 22px; height: 22px;
+    background: var(--gold);
+    clip-path: polygon(0 0, 70% 0, 100% 50%, 70% 100%, 0 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px;
+  }
+
+  .btn-more {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--navy);
+    color: var(--white);
+    font-weight: 700; font-size: 12.5px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .18s;
+    flex-shrink: 0;
+  }
+  .btn-more:hover { background: var(--navy-light); }
+  .btn-more svg { width: 13px; height: 13px; }
+
+  /* ── NEWS ── */
+  .news-section {
+    background: var(--white);
+    padding: 64px 0;
+  }
+  .news-inner { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .news-card {
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    background: var(--white);
+    border: 1px solid var(--gray-mid);
+    transition: box-shadow .22s, transform .22s;
+    cursor: pointer;
+  }
+  .news-card:hover {
+    box-shadow: 0 12px 40px rgba(10,21,53,.12);
+    transform: translateY(-4px);
+  }
+  .news-img {
+    width: 100%; aspect-ratio: 16/10;
+    object-fit: cover;
+    display: block;
+    background: var(--gray-mid);
+    position: relative;
+    overflow: hidden;
+  }
+  .news-img-placeholder {
+    width: 100%; aspect-ratio: 16/10;
+    background: linear-gradient(135deg, #c8d0e7 0%, #a8b4d0 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .news-img-placeholder svg { width: 36px; height: 36px; color: rgba(255,255,255,.5); }
+  .news-img-placeholder .play-btn {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .play-circle {
+    width: 42px; height: 42px;
+    background: rgba(255,255,255,.9);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .play-circle svg { width: 16px; height: 16px; color: var(--navy); margin-left: 2px; }
+
+  .news-body { padding: 18px 18px 20px; }
+  .news-tags { display: flex; gap: 6px; margin-bottom: 10px; }
+  .tag {
+    font-size: 10.5px; font-weight: 700;
+    padding: 3px 10px; border-radius: 20px;
+    text-transform: capitalize;
+  }
+  .tag-business { background: #e8f0fe; color: #3060c8; }
+  .tag-branding { background: #e6f9f0; color: #1a7a4a; }
+  .tag-date { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+
+  .news-title {
+    font-size: 15px; font-weight: 700; color: var(--navy);
+    line-height: 1.45; margin-bottom: 14px;
+  }
+  .news-author {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text-muted); font-weight: 600;
+  }
+  .avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy-light), var(--navy));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: var(--gold); font-weight: 800;
+  }
+
+  /* IMG backgrounds for cards */
+  .card-bg-1 { background: linear-gradient(135deg,#b8cae0,#8aadcf); }
+  .card-bg-2 { background: linear-gradient(135deg,#c8dfc8,#8abda8); }
+  .card-bg-3 { background: linear-gradient(135deg,#d0c8e0,#a899cc); }
+
+  /* ── DOTS NAV ── */
+  .dots-nav {
+    position: fixed; right: 20px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 8px;
+    z-index: 50;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gray-mid);
+    border: 2px solid #b0bcd8;
+    cursor: pointer; transition: background .2s, transform .2s;
+  }
+  .dot.active { background: var(--navy); transform: scale(1.4); }
+
+  /* ── SECTION DIVIDER ── */
+  .section-divider {
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--navy) 60%, transparent 100%);
+  }
+
+  /* ── Animated underline ── */
+  .section-eyebrow-line {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+  }
+  .eyebrow-bar { width: 28px; height: 4px; background: var(--gold); border-radius: 2px; }
+  .eyebrow-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+
+  /* animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp .6s ease both; }
+  .fade-up-2 { animation: fadeUp .6s .12s ease both; }
+  .fade-up-3 { animation: fadeUp .6s .24s ease both; }
+  .fade-up-4 { animation: fadeUp .6s .36s ease both; }
+
+  /* ── INFORMASI & PENGUMUMAN ── */
+  .info-section {
+    background: var(--navy);
+    padding: 56px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .info-watermark {
+    position: absolute;
+    left: -10px; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Playfair Display', serif;
+    font-size: 220px;
+    font-weight: 900;
+    color: rgba(255,255,255,.04);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    line-height: 1;
+    letter-spacing: -8px;
+  }
+  .info-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+  }
+  .section-icon-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+  .sec-icon {
+    width: 26px; height: 26px;
+    background: var(--gold);
+    clip-path: polygon(0 0, 72% 0, 100% 50%, 72% 100%, 0 100%);
+    flex-shrink: 0;
+  }
+  .section-icon-title h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--gold);
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 56px;
+    margin-bottom: 24px;
+  }
+  .info-item {
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .info-item-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 5px;
+  }
+  .info-item-meta {
+    font-size: 11.5px;
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 500;
+  }
+  .info-more {
+    display: inline-block;
+    color: var(--gold);
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 6px;
+  }
+  .info-more:hover { text-decoration: underline; }
+
+  /* ── RUBIK UAB ── */
+  .rubik-section {
+    background: var(--white);
+    padding: 56px 0;
+  }
+  .rubik-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .rubik-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .rubik-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .rubik-card {
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    background: var(--white);
+    border: 1px solid var(--gray-mid);
+    transition: box-shadow .22s, transform .22s;
+    cursor: pointer;
+  }
+  .rubik-card:hover {
+    box-shadow: 0 12px 40px rgba(10,21,53,.12);
+    transform: translateY(-4px);
+  }
+  .rubik-img-wrap {
+    position: relative;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+  }
+  .rubik-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .4s ease;
+  }
+  .rubik-card:hover .rubik-img-wrap img { transform: scale(1.04); }
+  .rubik-img-wrap .play-btn {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── ASET DIGITAL UAB ── */
+  .aset-section {
+    background: linear-gradient(135deg, #eef1fb 0%, #dde3f8 100%);
+    padding: 52px 0;
+  }
+  .aset-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .aset-left p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-top: 10px;
+  }
+  .aset-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .aset-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    border: 1.5px solid var(--gray-mid);
+    border-radius: 10px;
+    padding: 18px 20px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--navy);
+    text-decoration: none;
+    text-align: center;
+    transition: background .18s, border-color .18s, color .18s, transform .18s;
+    box-shadow: 0 2px 8px rgba(10,21,53,.06);
+  }
+  .aset-btn:hover {
+    background: var(--navy);
+    color: var(--white);
+    border-color: var(--navy);
+    transform: translateY(-2px);
+  }
+
+  /* ── RANTAI NILAI ── */
+  .rantai-section {
+    background: var(--white);
+    padding: 64px 0;
+  }
+  .rantai-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .rantai-heading {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.25;
+    margin: 12px 0 16px;
+  }
+  .rantai-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+  .rantai-buttons { display: flex; flex-direction: column; gap: 10px; }
+  .btn-outline {
+    display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid var(--navy);
+    border-radius: 8px;
+    padding: 13px 24px;
+    font-size: 13.5px; font-weight: 700;
+    color: var(--navy);
+    text-decoration: none;
+    transition: background .18s, color .18s;
+    width: fit-content; min-width: 240px;
+  }
+  .btn-outline:hover { background: var(--navy); color: var(--white); }
+
+  /* foto kolase kanan */
+  .rantai-right { position: relative; }
+  .collage-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 200px 180px;
+    gap: 8px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+  .collage-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .collage-wrap img:first-child { grid-column: 1; grid-row: 1; }
+  .collage-wrap img:nth-child(2) { grid-column: 2; grid-row: 1; }
+
+  /* Dekorasi lingkaran */
+  .deco-circle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .deco-yellow {
+    width: 80px; height: 80px;
+    background: var(--gold);
+    opacity: .85;
+    top: -20px; right: -20px;
+  }
+  .deco-teal {
+    width: 60px; height: 60px;
+    background: #2bbfa4;
+    opacity: .8;
+    top: 80px; right: -30px;
+  }
+
+  /* Testimonial card */
+  .testimonial-card {
+    background: var(--white);
+    border: 1px solid var(--gray-mid);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-top: 8px;
+    box-shadow: 0 4px 20px rgba(10,21,53,.07);
+    position: relative;
+  }
+  .testi-quote-icon {
+    font-family: Georgia, serif;
+    font-size: 48px;
+    color: var(--gold);
+    line-height: .8;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .testi-body { display: flex; gap: 12px; align-items: flex-start; }
+  .testi-avatar {
+    width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
+    border: 2px solid var(--gold);
+  }
+  .testi-text {
+    font-size: 12.5px; color: var(--navy); line-height: 1.6; font-style: italic;
+  }
+  .testi-name {
+    font-size: 11.5px; font-weight: 700; color: var(--navy);
+    margin-top: 8px; font-style: normal;
+  }
+  .testi-name span { color: var(--text-muted); font-weight: 500; }
+  .testi-dots {
+    display: flex; gap: 6px; margin-top: 12px; justify-content: center;
+  }
+  .testi-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gray-mid);
+  }
+  .testi-dot.active { background: var(--navy); width: 20px; border-radius: 4px; }
+
+  /* ── REKTOR QUOTES ── */
+  .rektor-section {
+    background: var(--white);
+    padding: 56px 0;
+  }
+  .rektor-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .rektor-card {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(10,21,53,.13);
+    min-height: 440px;
+  }
+  .rektor-photo-col {
+    position: relative;
+    background: linear-gradient(180deg, #c8d4f0 0%, #a8b8e0 100%);
+    overflow: hidden;
+  }
+  .rektor-photo-col img {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    height: 100%;
+    width: auto;
+    max-width: none;
+    display: block;
+  }
+  .rektor-arrows {
+    position: absolute;
+    bottom: 16px; left: 16px;
+    display: flex; gap: 8px;
+    z-index: 2;
+  }
+  .rektor-arrow {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--white);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; color: var(--navy);
+    transition: background .18s, color .18s;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  }
+  .rektor-arrow:hover { background: var(--gold); }
+  .rektor-content {
+    background: var(--navy);
+    padding: 48px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .rektor-content::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(245,184,0,.08) 0%, transparent 60%);
+  }
+  .rektor-content .section-icon-title { margin-bottom: 20px; }
+  .rektor-content .section-icon-title h2 {
+    font-size: 26px; color: var(--white); font-weight: 800;
+  }
+  .rektor-quote-text {
+    font-size: 13px;
+    color: rgba(255,255,255,.8);
+    line-height: 1.85;
+    margin-bottom: 28px;
+    position: relative;
+    font-style: italic;
+    padding-left: 4px;
+  }
+  .rektor-quote-text::before {
+    content: '\201C';
+    font-family: Georgia, serif;
+    font-size: 56px;
+    color: var(--gold);
+    opacity: .45;
+    position: absolute;
+    top: -18px; left: -6px;
+    line-height: 1;
+  }
+  .rektor-links { display: flex; gap: 28px; position: relative; }
+  .rektor-link {
+    font-size: 13px; font-weight: 700;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(245,184,0,.4);
+    padding-bottom: 2px;
+    transition: border-color .18s;
+  }
+  .rektor-link:hover { border-color: var(--gold); }
+
+  /* ── EKSISTENSI UAB ── */
+  .eksistensi-section {
+    background: var(--white);
+    padding: 52px 0 40px;
+    border-top: 1px solid var(--gray-mid);
+  }
+  .eksistensi-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .award-track-wrap { position: relative; }
+  .award-track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 8px;
+    cursor: grab;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .award-track::-webkit-scrollbar { display: none; }
+  .award-card {
+    flex-shrink: 0;
+    width: 160px;
+    height: 110px;
+    border-radius: 10px;
+    border: 1px solid var(--gray-mid);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--white);
+    transition: box-shadow .2s;
+  }
+  .award-card:hover { box-shadow: 0 4px 16px rgba(10,21,53,.1); }
+  .award-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  /* Placeholder award card */
+  .award-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; text-align: center;
+    padding: 10px; gap: 4px;
+    text-transform: uppercase; letter-spacing: .5px;
+  }
+  .award-placeholder .award-icon { font-size: 28px; }
+  .slide-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .slide-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid #c0c8dc;
+    background: var(--white);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--navy);
+    transition: background .18s, border-color .18s;
+  }
+  .slide-btn:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  .slide-label {
+    font-size: 12px; color: var(--text-muted); font-weight: 500;
+  }
+
+  /* ── MITRA UAB ── */
+  .mitra-section {
+    background: var(--white);
+    padding: 0 0 52px;
+  }
+  .mitra-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .mitra-logos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+    padding: 20px 0;
+    border-top: 1px solid var(--gray-mid);
+  }
+  .mitra-logo {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+    opacity: .45;
+    transition: opacity .2s;
+    cursor: pointer;
+    min-width: 80px;
+  }
+  .mitra-logo:hover { opacity: .85; }
+  .mitra-logo svg { width: 40px; height: 40px; }
+  .mitra-logo span { font-size: 10px; font-weight: 700; color: #8898aa; letter-spacing: .5px; }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    background: var(--navy);
+    padding: 48px 0 28px;
+  }
+  .footer-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 280px 1fr 120px 260px;
+    gap: 40px;
+  }
+  .footer-brand { display: flex; flex-direction: column; gap: 12px; }
+  .footer-logo-wrap { display: flex; align-items: center; gap: 10px; }
+  .footer-logo-emblem {
+    width: 44px; height: 44px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 12px; color: var(--navy);
+    flex-shrink: 0;
+  }
+  .footer-logo-text b { color: var(--white); font-size: 14px; font-weight: 800; display: block; }
+  .footer-logo-text small { color: var(--gold); font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase; }
+  .footer-tagline {
+    font-size: 12px; color: rgba(255,255,255,.55); line-height: 1.6;
+  }
+  .footer-socials { display: flex; gap: 10px; margin-top: 4px; }
+  .social-btn {
+    width: 34px; height: 34px;
+    border-radius: 6px;
+    background: rgba(255,255,255,.1);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,.7);
+    text-decoration: none;
+    transition: background .18s;
+  }
+  .social-btn:hover { background: var(--gold); color: var(--navy); }
+  .social-btn svg { width: 16px; height: 16px; }
+
+  .footer-nav h4 {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: rgba(255,255,255,.4);
+    margin-bottom: 14px;
+  }
+  .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-nav ul li a {
+    font-size: 13px; color: rgba(255,255,255,.75); font-weight: 600;
+    text-decoration: none; transition: color .18s;
+  }
+  .footer-nav ul li a:hover { color: var(--gold); }
+
+  .footer-address h4 {
+    font-size: 13px; font-weight: 800; color: var(--white);
+    margin-bottom: 8px;
+  }
+  .footer-address p {
+    font-size: 12.5px; color: rgba(255,255,255,.6); line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .btn-maps {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,.3);
+    color: var(--white);
+    font-size: 12.5px; font-weight: 700;
+    padding: 9px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background .18s, border-color .18s;
+  }
+  .btn-maps:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.6); }
+  .footer-bottom {
+    max-width: 1240px;
+    margin: 32px auto 0;
+    padding: 16px 24px 0;
+    border-top: 1px solid rgba(255,255,255,.1);
+    font-size: 11.5px; color: rgba(255,255,255,.35);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero-wrap">
+<header class="site-header">
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.17a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 6.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 13.92z"/></svg>
+      Kontak Kami: Pusat Kontak (Senin s.d Jumat)
+    </span>
+    <span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Jl. Dukuh Menanggal 4/XII Kota Surabaya
+    </span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo-wrap">
+      <img src="logo.png" alt="UAB Universitas Adi Buana"
+           style="height: 46px; width: auto; object-fit: contain; display: block;"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <!-- Fallback teks jika logo.png belum ada -->
+      <div style="display:none; align-items:center; gap:10px;">
+        <div class="logo-emblem">UAB</div>
+        <div class="logo-text"><b>ADI BUANA</b><small>Universitas</small></div>
+      </div>
+    </a>
+
+    <ul class="nav-menu">
+      <li><a href="#">Layanan <span class="chevron">▾</span></a></li>
+      <li><a href="#">Tentang <span class="chevron">▾</span></a></li>
+      <li><a href="#">Mahasiswa & Alumni <span class="chevron">▾</span></a></li>
+      <li><a href="#">Pengabdian & Penelitian <span class="chevron">▾</span></a></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="nav-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </div>
+      <a href="#" class="btn-pmb">
+        Info PMB
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+      <div class="lang-flag">
+        <div class="flag-icon"><div class="r"></div><div class="w"></div></div>
+        ID
+      </div>
+    </div>
+  </div>
+</nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <!-- VIDEO BACKGROUND: ganti YOUR_VIDEO_ID dengan ID video YouTube kampus UAB -->
+  <!-- Contoh: https://www.youtube.com/watch?v=ABC123 → pakai ABC123 sebagai YOUR_VIDEO_ID -->
+  <div class="hero-video-container">
+    <video autoplay muted loop playsinline>
+      <source src="movie.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <div class="hero-badge fade-up">Kampus Edutechnopreneur Terbaik Surabaya</div>
+    <h1 class="fade-up-2">UAB <span>Universitas</span><br>Adi Buana</h1>
+    <p class="hero-sub fade-up-3">Integrasi Edukasi, Teknologi, dan Entrepreneurship</p>
+  </div>
+</section>
+</div><!-- /hero-wrap -->
+
+<!-- DOTS NAV -->
+<div class="dots-nav">
+  <div class="dot active"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
+<!-- AUTO SIGMA / PRODI -->
+<section class="autosigma">
+  <div class="autosigma-inner">
+
+    <!-- KIRI: judul + karakter + tombol -->
+    <div class="autosigma-left">
+      <!-- Karakter — ganti src dengan path file gambar PNG kamu (2 orang dalam 1 gambar) -->
+      <div class="char-left-img">
+        <img src="maskot.png" alt="Karakter UAB"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="char-placeholder" style="display:none;">Upload<br>maskot.png</div>
+      </div>
+      <div class="autosigma-title-wrap">
+        <div class="as-kuliah">Kuliah</div>
+        <div class="as-di-uab">di <span class="uab-text">UAB</span> 🔥</div>
+        <div class="as-auto">AUTO</div>
+        <div class="as-sigma">SIGMA <span class="as-deco">⚡</span></div>
+      </div>
+      <a href="#" class="btn-daftar">Daftar Sekarang &gt;</a>
+    </div>
+
+    <!-- KANAN: heading + 5 dropdown rows -->
+    <div class="autosigma-right">
+      <p class="spill-heading">Kita <em>spill</em> konsentrasi jurusan terkini di UAB</p>
+
+      <div class="jurusan-row jr-outline">
+        <span>Career development, Find Art Studio, Fashion Design ....</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="jurusan-row jr-red">
+        <span>Artificial intelligence, Engineering Management, Biodiversitas ...</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="jurusan-row jr-yellow">
+        <span>Marketing and Entrepreneursip, Sustainable Accounting ...</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="jurusan-row jr-green">
+        <span>Acupressure Midwifery, Pharmacy - Natural ingredients ...</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="jurusan-row jr-dark">
+        <span>AI Instructional, Smart Learning Ecosystem, Learning ...</span>
+        <span class="arrow">▼</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- KABAR UAB / NEWS -->
+<section class="news-section">
+  <div class="news-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow-line">
+          <div class="eyebrow-bar"></div>
+          <span class="eyebrow-label">Terbaru</span>
+        </div>
+        <h2>Kabar <span>UAB</span></h2>
+        <p>Berita terbaru tentang Universitas Adi Buana Surabaya</p>
+      </div>
+      <a href="#" class="btn-more">
+        Berita Lainnya
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+    </div>
+
+    <div class="news-grid">
+      <!-- Card 1 -->
+      <div class="news-card">
+        <div class="news-img-placeholder card-bg-1">
+          <div class="play-btn">
+            <div class="play-circle">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="news-body">
+          <div class="news-tags">
+            <span class="tag tag-business">Business</span>
+            <span class="tag-date">10 Aug 2023</span>
+          </div>
+          <div class="news-title">We would love to share a similar experience</div>
+          <div class="news-author">
+            <div class="avatar">W</div>
+            webmaster
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="news-card">
+        <div class="news-img-placeholder card-bg-2"></div>
+        <div class="news-body">
+          <div class="news-tags">
+            <span class="tag tag-branding">Branding</span>
+            <span class="tag-date">06 Aug 2023</span>
+          </div>
+          <div class="news-title">We glad to discuss your organisation situation.</div>
+          <div class="news-author">
+            <div class="avatar">W</div>
+            webmaster
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="news-card">
+        <div class="news-img-placeholder card-bg-3"></div>
+        <div class="news-body">
+          <div class="news-tags">
+            <span class="tag tag-business">Business</span>
+            <span class="tag-date">20 Jul 2023</span>
+          </div>
+          <div class="news-title">In this context our main approach was to build.</div>
+          <div class="news-author">
+            <div class="avatar">W</div>
+            webmaster
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="news-card">
+        <div class="news-img-placeholder card-bg-2">
+          <div class="play-btn">
+            <div class="play-circle">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="news-body">
+          <div class="news-tags">
+            <span class="tag tag-business">Business</span>
+            <span class="tag-date">10 Aug 2023</span>
+          </div>
+          <div class="news-title">We would love to share a similar experience</div>
+          <div class="news-author">
+            <div class="avatar">W</div>
+            webmaster
+          </div>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-img-placeholder card-bg-1"></div>
+        <div class="news-body">
+          <div class="news-tags">
+            <span class="tag tag-branding">Branding</span>
+            <span class="tag-date">06 Aug 2023</span>
+          </div>
+          <div class="news-title">We glad to discuss your organisation situation.</div>
+          <div class="news-author">
+            <div class="avatar">W</div>
+            webmaster
+          </div>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <div class="news-img-placeholder card-bg-3"></div>
+        <div class="news-body">
+          <div class="news-tags">
+            <span class="tag tag-business">Business</span>
+            <span class="tag-date">20 Jul 2023</span>
+          </div>
+          <div class="news-title">In this context our main approach was to build.</div>
+          <div class="news-author">
+            <div class="avatar">W</div>
+            webmaster
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFORMASI & PENGUMUMAN -->
+<section class="info-section">
+  <div class="info-watermark">Informasi</div>
+  <div class="info-inner">
+    <div class="section-icon-title">
+      <div class="sec-icon"></div>
+      <h2>Informasi &amp; Pengumuman</h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-item-title">Informasi Kalender Akademik T.A. 2026/2027</div>
+        <div class="info-item-meta">Dipublikasikan 10 Juni 2026 oleh Admin Digital Marketing</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-title">Pengumuman Wisuda Genap TA 2026/2027</div>
+        <div class="info-item-meta">Dipublikasikan 10 Juni 2026 oleh Admin Digital Marketing</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-title">Seminar Nasional Matematika 2026</div>
+        <div class="info-item-meta">Dipublikasikan 10 Juni 2026 oleh Admin Digital Marketing</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-title">International Colloqioum 2026</div>
+        <div class="info-item-meta">Dipublikasikan 10 Juni 2026 oleh Admin Digital Marketing</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-title">Lowongan Dosen Program Studi Farmasi</div>
+        <div class="info-item-meta">Dipublikasikan 10 Juni 2026 oleh Admin Digital Marketing</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-title">Upacara Dies Natalis ke-55 Adi Buana</div>
+        <div class="info-item-meta">Dipublikasikan 10 Juni 2026 oleh Admin Digital Marketing</div>
+      </div>
+    </div>
+    <a href="#" class="info-more">Informasi &amp; Pengumuman Lainnya .....</a>
+  </div>
+</section>
+
+<!-- RUBIK UAB -->
+<section class="rubik-section">
+  <div class="rubik-inner">
+    <div class="rubik-header">
+      <div class="section-icon-title" style="margin-bottom:0;">
+        <div class="sec-icon" style="background:var(--navy);"></div>
+        <h2 style="color:var(--navy);">Rubik UAB</h2>
+      </div>
+      <a href="#" class="btn-more">
+        Rubik Lainnya
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+    </div>
+    <div class="rubik-grid">
+      <!-- Card 1 -->
+      <div class="rubik-card">
+        <div class="rubik-img-wrap">
+          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80" alt="Rubik UAB 1">
+          <div class="play-btn">
+            <div class="play-circle">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="news-body">
+          <div class="news-tags">
+            <span class="tag tag-business">Business</span>
+            <span class="tag-date">10 Aug 2023</span>
+          </div>
+          <div class="news-title">We would love to share a similar experience</div>
+          <div class="news-author">
+            <div class="avatar">W</div>
+            webmaster
+          </div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="rubik-card">
+        <div class="rubik-img-wrap">
+          <img src="https://images.unsplash.com/photo-1543269664-76bc3997d9ea?w=600&q=80" alt="Rubik UAB 2">
+        </div>
+        <div class="news-body">
+          <div class="news-tags">
+            <span class="tag tag-branding">Branding</span>
+            <span class="tag-date">06 Aug 2023</span>
+          </div>
+          <div class="news-title">We glad to discuss your organisation situation.</div>
+          <div class="news-author">
+            <div class="avatar">W</div>
+            webmaster
+          </div>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="rubik-card">
+        <div class="rubik-img-wrap">
+          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=80" alt="Rubik UAB 3">
+        </div>
+        <div class="news-body">
+          <div class="news-tags">
+            <span class="tag tag-business">Business</span>
+            <span class="tag-date">20 Jul 2023</span>
+          </div>
+          <div class="news-title">In this context our main approach was to build.</div>
+          <div class="news-author">
+            <div class="avatar">W</div>
+            webmaster
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ASET DIGITAL UAB -->
+<section class="aset-section">
+  <div class="aset-inner">
+    <div class="aset-left">
+      <div class="section-icon-title" style="margin-bottom:0;">
+        <div class="sec-icon" style="background:var(--navy);"></div>
+        <h2 style="color:var(--navy); font-size:22px;">Aset Digital UAB</h2>
+      </div>
+      <p>Universitas Adi Buana memiliki banyak aset digital yang dapat diakses oleh publik, berikut beberapa menu akses digital yang dapat diakses</p>
+    </div>
+    <div class="aset-buttons">
+      <a href="#" class="aset-btn">Pedoman Akademik</a>
+      <a href="#" class="aset-btn">Panduan Pembayaran Kuliah</a>
+      <a href="#" class="aset-btn">Sertifikat Akreditasi</a>
+      <a href="#" class="aset-btn">Identitas Visual</a>
+    </div>
+  </div>
+</section>
+
+<!-- RANTAI NILAI -->
+<section class="rantai-section">
+  <div class="rantai-inner">
+    <!-- Kiri -->
+    <div class="rantai-left">
+      <div class="section-icon-title" style="margin-bottom:0;">
+        <div class="sec-icon" style="background:var(--navy);"></div>
+      </div>
+      <h2 class="rantai-heading">Membangun Rantai Nilai Pendidikan bersama UAB</h2>
+      <p class="rantai-desc">Sebagai salah satu perguruan tinggi swasta terbaik di Indonesia, UAB ikut menjalankan peran penting dalam menjawab berbagai tantangan untuk mendorong kemajuan bangsa. Berbagai langkah inovasi dan inisiatif yang dihadirkan dalam berbagai program menjadi wujud kontribusi aktif UAB dalam pengembangan dan penyebaran ilmu pengetahuan dan teknologi serta pengabdian kepada masyarakat.</p>
+      <div class="rantai-buttons">
+        <a href="#" class="btn-outline">UAB Berdampak</a>
+        <a href="#" class="btn-outline">Riset dan Penelitian</a>
+        <a href="#" class="btn-outline">Layanan Edutechnopreneur</a>
+      </div>
+    </div>
+
+    <!-- Kanan: kolase foto + testimonial -->
+    <div class="rantai-right">
+      <div style="position:relative;">
+        <div class="deco-circle deco-yellow"></div>
+        <div class="deco-circle deco-teal"></div>
+        <div class="collage-wrap">
+          <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=600&q=80" alt="Kampus UAB">
+          <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80" alt="Kegiatan UAB">
+        </div>
+      </div>
+      <!-- Testimonial -->
+      <div class="testimonial-card">
+        <span class="testi-quote-icon">"</span>
+        <div class="testi-body">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80" alt="Alumni">
+          <div>
+            <div class="testi-text">Adi Buana sangat support terhadap atlet, berkat Adi Buana saya juga bisa konsentrasi saat Sea Games dan meraih Emas di 2023</div>
+            <div class="testi-name">Haykal Alhafiz, <span>Alumni</span></div>
+          </div>
+        </div>
+        <div class="testi-dots">
+          <div class="testi-dot"></div>
+          <div class="testi-dot active"></div>
+          <div class="testi-dot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REKTOR QUOTES -->
+<section class="rektor-section">
+  <div class="rektor-inner">
+    <div class="rektor-card">
+
+      <!-- Foto Rektor -->
+      <div class="rektor-photo-col">
+        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80" alt="Rektor UAB">
+        <div class="rektor-arrows">
+          <button class="rektor-arrow">&#8592;</button>
+          <button class="rektor-arrow">&#8594;</button>
+        </div>
+      </div>
+
+      <!-- Konten quote -->
+      <div class="rektor-content">
+        <div class="section-icon-title">
+          <div class="sec-icon"></div>
+          <h2>Rektor Quotes</h2>
+        </div>
+        <p class="rektor-quote-text">
+          Di tengah era disrupsi, Adi Buana bertransformasi menjadi Universitas berbasis Edutechnopreneur di mana pendidikan, teknologi, dan kewirausahaan menyatu untuk menciptakan nilai nyata bagi kemanusiaan. Kami berkomitmen menghapus sekat akademik agar setiap lulusan tumbuh menjadi job creator dan problem solver yang tidak hanya siap kerja, tetapi mampu menciptakan masa depan melalui karya inovatif. Mari bersama membangun rantai nilai pendidikan ini, menjadikan setiap langkah kita di kampus sebagai ibadah intelektual yang membumi dan bermanfaat bagi bangsa." – Dr. Untung Lasiyono, M.Si. (Rektor)
+        </p>
+        <div class="rektor-links">
+          <a href="#" class="rektor-link">Profil Rektorat</a>
+          <a href="#" class="rektor-link">Visi &amp; Misi</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EKSISTENSI UAB -->
+<section class="eksistensi-section">
+  <div class="eksistensi-inner">
+    <div class="section-icon-title" style="margin-bottom:20px;">
+      <div class="sec-icon" style="background:var(--navy);"></div>
+      <h2 style="color:var(--navy); font-size:24px;">Eksistensi UAB</h2>
+    </div>
+
+    <div class="award-track-wrap">
+      <div class="award-track" id="awardTrack">
+        <!-- Ganti setiap award-card dengan <img src="award1.png"> saat gambar tersedia -->
+        <div class="award-card">
+          <div class="award-placeholder" style="background:#1a1a2e; color:#f5b800;">
+            <div class="award-icon">🏆</div>
+            <div>Times Business Awards<br>Hyderabad 2022</div>
+          </div>
+        </div>
+        <div class="award-card">
+          <div class="award-placeholder" style="background:#e8f5e9; color:#2e7d32;">
+            <div class="award-icon">🥇</div>
+            <div>Small Business Awards</div>
+          </div>
+        </div>
+        <div class="award-card">
+          <div class="award-placeholder" style="background:#fff3e0; color:#e65100;">
+            <div class="award-icon">🏅</div>
+            <div>Business Excellence Award</div>
+          </div>
+        </div>
+        <div class="award-card">
+          <div class="award-placeholder" style="background:#e3f2fd; color:#1565c0;">
+            <div class="award-icon">⭐</div>
+            <div>Best of Business Awards 2021</div>
+          </div>
+        </div>
+        <div class="award-card">
+          <div class="award-placeholder" style="background:#fce4ec; color:#880e4f;">
+            <div class="award-icon">🎖️</div>
+            <div>Business Awards 2023</div>
+          </div>
+        </div>
+        <div class="award-card">
+          <div class="award-placeholder" style="background:#f3e5f5; color:#6a1b9a;">
+            <div class="award-icon">🏆</div>
+            <div>Innovation Award 2023</div>
+          </div>
+        </div>
+        <div class="award-card">
+          <div class="award-placeholder" style="background:#e8eaf6; color:#283593;">
+            <div class="award-icon">🥈</div>
+            <div>Education Excellence 2022</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-controls">
+      <button class="slide-btn" onclick="document.getElementById('awardTrack').scrollBy({left:-200,behavior:'smooth'})">&#8592;</button>
+      <button class="slide-btn" onclick="document.getElementById('awardTrack').scrollBy({left:200,behavior:'smooth'})">&#8594;</button>
+      <span class="slide-label">Drag to explore more</span>
+    </div>
+  </div>
+</section>
+
+<!-- MITRA UAB -->
+<section class="mitra-section">
+  <div class="mitra-inner">
+    <div class="section-icon-title" style="margin-bottom:0; padding-top:32px;">
+      <div class="sec-icon" style="background:var(--navy);"></div>
+      <h2 style="color:var(--navy); font-size:24px;">Mitra UAB</h2>
+    </div>
+    <div class="mitra-logos">
+      <div class="mitra-logo">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#8898aa" stroke-width="2"><path d="M8 36l10-16 8 10 6-8 8 14H8z"/><circle cx="32" cy="14" r="5"/></svg>
+        <span>Financial<br>Advisors</span>
+      </div>
+      <div class="mitra-logo">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#8898aa" stroke-width="2"><circle cx="24" cy="18" r="8"/><path d="M8 40c0-8.8 7.2-16 16-16s16 7.2 16 16"/></svg>
+        <span>Partner</span>
+      </div>
+      <div class="mitra-logo">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#8898aa" stroke-width="2"><rect x="6" y="12" width="36" height="24" rx="4"/><path d="M14 20h20M14 28h14"/></svg>
+        <span>Talk</span>
+      </div>
+      <div class="mitra-logo">
+        <svg viewBox="0 0 48 48" fill="#8898aa"><circle cx="12" cy="12" r="4"/><circle cx="24" cy="12" r="4"/><circle cx="36" cy="12" r="4"/><circle cx="12" cy="24" r="4"/><circle cx="24" cy="24" r="4"/><circle cx="36" cy="24" r="4"/><circle cx="12" cy="36" r="4"/><circle cx="24" cy="36" r="4"/><circle cx="36" cy="36" r="4"/></svg>
+        <span>Partner</span>
+      </div>
+      <div class="mitra-logo">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#8898aa" stroke-width="2"><polygon points="8,24 20,8 40,8 40,40 20,40"/></svg>
+        <span>Dolore</span>
+      </div>
+      <div class="mitra-logo">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#8898aa" stroke-width="2"><path d="M10 24c0-7.7 6.3-14 14-14s14 6.3 14 14-6.3 14-14 14"/><path d="M30 32l8 4-4-8"/></svg>
+        <span>Consult</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <!-- Brand -->
+    <div class="footer-brand">
+      <div class="footer-logo-wrap">
+        <img src="logo2.png" alt="UAB Universitas Adi Buana"
+             style="height: 56px; width: auto; object-fit: contain; display: block;"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <!-- Fallback jika logo.png belum ada -->
+        <div style="display:none; align-items:center; gap:10px;">
+          <div class="footer-logo-emblem">UAB</div>
+          <div class="footer-logo-text">
+            <b>ADI BUANA</b>
+            <small>Universitas</small>
+          </div>
+        </div>
+      </div>
+      <p class="footer-tagline">Universitas Adi Buana, Edutechnopreneur University</p>
+      <div class="footer-socials">
+        <!-- Facebook -->
+        <a href="#" class="social-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <!-- Instagram -->
+        <a href="#" class="social-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <!-- LinkedIn -->
+        <a href="#" class="social-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Nav 1 -->
+    <div class="footer-nav">
+      <ul>
+        <li><a href="#">Tentang Kami</a></li>
+        <li><a href="#">Super Team</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Kontak Kami</a></li>
+      </ul>
+    </div>
+
+    <!-- Nav 2 -->
+    <div class="footer-nav">
+      <ul>
+        <li><a href="#">Karier</a></li>
+        <li><a href="#">Berita</a></li>
+      </ul>
+    </div>
+
+    <!-- Alamat -->
+    <div class="footer-address">
+      <h4>Alamat Kampus</h4>
+      <p>Jl. Dukuh Menanggal 4/XII, Kota Surabaya</p>
+      <a href="https://maps.google.com" target="_blank" class="btn-maps">Google Maps</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2026 Universitas Adi Buana Surabaya. All rights reserved.
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const siteHeader = document.querySelector('.site-header');
+    const heroWrap   = document.querySelector('.hero-wrap');
+    window.addEventListener('scroll', () => {
+      const heroBottom = heroWrap.offsetTop + heroWrap.offsetHeight;
+      if (window.scrollY > heroBottom - 100) {
+        siteHeader.classList.add('is-sticky');
+      } else {
+        siteHeader.classList.remove('is-sticky');
+      }
+    });
+  });
+</script>
+</body>
+</html>
