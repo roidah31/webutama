@@ -97,6 +97,13 @@
     background: rgba(10,21,53,.97);
     box-shadow: 0 2px 16px rgba(0,0,0,.3);
   }
+  /* Saat sticky: sembunyikan topbar, tampilkan hanya navbar */
+  .site-header.is-sticky .topbar { display: none; }
+  /* Saat sticky: sembunyikan lang switcher & btn-pmb, tampilkan btn-kontak */
+  .site-header.is-sticky .lang-switcher { display: none; }
+  .site-header.is-sticky .btn-pmb { display: none; }
+  .site-header.is-sticky .btn-kontak-sticky { display: flex; }
+  .site-header.is-sticky .nav-hamburger-circle { display: flex; }
   @keyframes slideDown {
     from { transform: translateY(-100%); }
     to   { transform: translateY(0); }
@@ -213,6 +220,53 @@
   .btn-pmb:hover { background: #0a5f75; }
   .btn-pmb svg { width: 16px; height: 16px; }
 
+  /* ── KONTAK KAMI (sticky only) ── */
+  .btn-kontak-sticky {
+    display: none; /* hidden by default, shown when is-sticky */
+    align-items: center;
+    gap: 8px;
+    background: #2e7fa8;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 0 24px;
+    border-radius: 0 12px 0 0;
+    margin-left: 24px;
+    align-self: stretch;
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: .2px;
+    flex-shrink: 0;
+    transition: background .18s;
+  }
+  .btn-kontak-sticky:hover { background: #1c6080; }
+  .btn-kontak-sticky svg { width: 15px; height: 15px; }
+
+  /* ── HAMBURGER CIRCLE (sticky only) ── */
+  .nav-hamburger-circle {
+    display: none; /* hidden by default, shown when is-sticky */
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255,255,255,.55);
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-left: 12px;
+    margin-right: 12px;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .nav-hamburger-circle span {
+    display: block;
+    width: 17px;
+    height: 2px;
+    background: rgba(255,255,255,.85);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
   /* ── LANG SWITCHER ── */
   .lang-switcher {
     display: flex;
@@ -272,12 +326,21 @@
     position: relative;
     max-width: 1240px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 48px;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding-bottom: 64px;
+    padding-bottom: 72px;
+  }
+  .hero-image-text {
+    display: block;
+    max-width: 520px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: left bottom;
+    filter: drop-shadow(0 4px 24px rgba(0,0,0,.25));
   }
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
@@ -592,16 +655,56 @@
   .dots-nav {
     position: fixed; right: 20px; top: 50%;
     transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 8px;
-    z-index: 50;
+    display: flex; flex-direction: column; gap: 10px;
+    z-index: 300;
+    /* Pill background agar terlihat di background apapun */
+    background: rgba(10,21,53,.32);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 20px;
+    padding: 12px 7px;
+    border: 1px solid rgba(255,255,255,.12);
   }
   .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--gray-mid);
-    border: 2px solid #b0bcd8;
-    cursor: pointer; transition: background .2s, transform .2s;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: rgba(255,255,255,.55);
+    border: 2px solid rgba(255,255,255,.9);
+    cursor: pointer;
+    transition: background .25s, transform .25s, width .25s, height .25s;
+    position: relative;
+    /* Shadow ganda: putih dalam + gelap luar → terlihat di semua bg */
+    box-shadow: 0 0 0 1.5px rgba(10,21,53,.35), 0 1px 4px rgba(0,0,0,.25);
   }
-  .dot.active { background: var(--navy); transform: scale(1.4); }
+  .dot:hover {
+    background: rgba(255,255,255,.95);
+    transform: scale(1.25);
+  }
+  .dot.active {
+    background: #fff;
+    border-color: #fff;
+    width: 10px; height: 28px;
+    border-radius: 6px;
+    transform: none;
+    box-shadow: 0 0 0 1.5px rgba(10,21,53,.35), 0 2px 8px rgba(0,0,0,.3);
+  }
+  /* Tooltip label saat hover */
+  .dot::after {
+    content: attr(title);
+    position: absolute;
+    right: 20px; top: 50%;
+    transform: translateY(-50%);
+    background: rgba(10,21,53,.85);
+    color: #fff;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .dot:hover::after { opacity: 1; }
 
   /* ── SECTION DIVIDER ── */
   .section-divider {
@@ -921,100 +1024,125 @@
 
   /* ── REKTOR QUOTES ── */
   .rektor-section {
-    background: var(--white);
-    padding: 56px 0;
+    background: #f4f6fb;
+    padding: 160px 0 64px; /* top padding besar untuk ruang foto overflow ke atas */
   }
   .rektor-inner {
-    max-width: 1240px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 0 24px;
+    position: relative;
   }
   .rektor-card {
     display: grid;
-    grid-template-columns: 340px 1fr;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 8px 40px rgba(10,21,53,.13);
-    min-height: 440px;
+    grid-template-columns: 380px 1fr;
+    overflow: visible;
+    box-shadow: none; /* shadow dipindah ke rektor-content */
+    min-height: 400px;
+    position: relative;
+    border-radius: 0;
   }
   .rektor-photo-col {
     position: relative;
-    background: linear-gradient(180deg, #c8d4f0 0%, #a8b8e0 100%);
+    background: linear-gradient(160deg, #c9a0c0 0%, #b87eb5 60%, #9a6aa0 100%);
     overflow: hidden;
+    /* radius atas agar foto terlihat rapi saat mengambang */
+    border-radius: 12px 12px 0 0;
+    width: 380px;
+    flex-shrink: 0;
+    /* Overflow ke atas — foto berada di atas card */
+    margin-top: -150px;
+    min-height: calc(100% + 150px);
+    align-self: flex-start;
+    height: calc(100% + 150px);
+    /* Tidak ada garis biru di sini */
   }
-  .rektor-photo-col img {
+  /* Photo background mengisi penuh kolom (seperti baru.html) */
+  .rektor-photo-bg {
     position: absolute;
-    bottom: 0; left: 50%;
-    transform: translateX(-50%);
-    height: 100%;
-    width: auto;
-    max-width: none;
-    display: block;
+    inset: 0;
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
   }
   .rektor-arrows {
     position: absolute;
-    bottom: 16px; left: 16px;
-    display: flex; gap: 8px;
+    bottom: 0; left: 0;
+    display: flex; gap: 0;
     z-index: 2;
   }
-  .rektor-arrow {
-    width: 34px; height: 34px;
-    border-radius: 50%;
+  /* Tombol kiri: teal solid */
+  .rektor-arrow:first-child {
+    width: 52px; height: 44px;
+    background: #1a6fa8;
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: #fff;
+    border-radius: 0;
+    transition: background .18s;
+  }
+  .rektor-arrow:first-child:hover { background: #155a88; }
+  /* Tombol kanan: putih */
+  .rektor-arrow:last-child {
+    width: 52px; height: 44px;
     background: var(--white);
     border: none; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    font-size: 15px; color: var(--navy);
-    transition: background .18s, color .18s;
-    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    font-size: 18px; color: var(--navy);
+    border-radius: 0 0 0 0;
+    box-shadow: inset 0 0 0 1px rgba(10,21,53,.12);
+    transition: background .18s;
   }
-  .rektor-arrow:hover { background: var(--gold); }
+  .rektor-arrow:last-child:hover { background: #f0f4f8; }
+
   .rektor-content {
-    background: var(--navy);
-    padding: 48px 48px;
+    background: var(--white);
+    padding: 44px 52px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
-    overflow: hidden;
+    border-radius: 0 12px 12px 0;
+    /* Garis biru hanya di sisi konten, tidak memotong foto */
+    border-top: 4px solid #1a6fa8;
+    box-shadow: 4px 8px 48px rgba(10,21,53,.13);
   }
-  .rektor-content::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 80% 20%, rgba(245,184,0,.08) 0%, transparent 60%);
-  }
-  .rektor-content .section-icon-title { margin-bottom: 20px; }
+  .rektor-content .section-icon-title { margin-bottom: 18px; }
   .rektor-content .section-icon-title h2 {
-    font-size: 26px; color: var(--white); font-weight: 800;
+    font-size: 28px;
+    color: var(--navy);
+    font-weight: 800;
   }
+  /* Icon warna biru di heading */
+  .rektor-content .sec-icon { background: #1a6fa8 !important; }
   .rektor-quote-text {
-    font-size: 13px;
-    color: rgba(255,255,255,.8);
-    line-height: 1.85;
-    margin-bottom: 28px;
+    font-size: 14px;
+    color: #3a4a6b;
+    line-height: 1.9;
+    margin-bottom: 32px;
     position: relative;
-    font-style: italic;
-    padding-left: 4px;
+    font-style: normal;
+    padding-left: 0;
   }
-  .rektor-quote-text::before {
-    content: '\201C';
-    font-family: Georgia, serif;
-    font-size: 56px;
-    color: var(--gold);
-    opacity: .45;
-    position: absolute;
-    top: -18px; left: -6px;
-    line-height: 1;
+  .rektor-quote-text::before { display: none; }
+  .rektor-links { display: flex; gap: 36px; position: relative; align-items: center; }
+  /* Link pertama: teal dengan underline */
+  .rektor-link:first-child {
+    font-size: 14px; font-weight: 700;
+    color: #1a6fa8;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color .18s;
   }
-  .rektor-links { display: flex; gap: 28px; position: relative; }
-  .rektor-link {
-    font-size: 13px; font-weight: 700;
-    color: var(--gold);
+  .rektor-link:first-child:hover { color: #0f4f7a; }
+  /* Link kedua: dark, tanpa underline */
+  .rektor-link:last-child {
+    font-size: 14px; font-weight: 700;
+    color: var(--navy);
     text-decoration: none;
-    border-bottom: 1px solid rgba(245,184,0,.4);
-    padding-bottom: 2px;
-    transition: border-color .18s;
+    transition: color .18s;
   }
-  .rektor-link:hover { border-color: var(--gold); }
+  .rektor-link:last-child:hover { color: #1a6fa8; }
 
   /* ── EKSISTENSI UAB ── */
   .eksistensi-section {
@@ -1410,6 +1538,17 @@
           <img src="https://flagcdn.com/w40/us.png" alt="English" class="flag-img">
         </div>
       </div>
+
+      <!-- Kontak Kami — hanya tampil saat sticky -->
+      <a href="#" class="btn-kontak-sticky">
+        Kontak Kami
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+
+      <!-- Hamburger circle — hanya tampil saat sticky -->
+      <div class="nav-hamburger-circle">
+        <span></span><span></span><span></span>
+      </div>
     </div>
   </div>
 </nav>
@@ -1436,7 +1575,7 @@
 </header>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="sec-hero">
   <!-- VIDEO BACKGROUND: ganti YOUR_VIDEO_ID dengan ID video YouTube kampus UAB -->
   <!-- Contoh: https://www.youtube.com/watch?v=ABC123 → pakai ABC123 sebagai YOUR_VIDEO_ID -->
   <div class="hero-video-container">
@@ -1447,23 +1586,21 @@
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-inner">
-    <div class="hero-badge fade-up">Kampus Edutechnopreneur Terbaik Surabaya</div>
-    <h1 class="fade-up-2">UAB <span>Universitas</span><br>Adi Buana</h1>
-    <p class="hero-sub fade-up-3">Integrasi Edukasi, Teknologi, dan Entrepreneurship</p>
+    <img src="hero.png" alt="UAB Universitas Adi Buana" class="hero-image-text fade-up">
   </div>
 </section>
 </div><!-- /hero-wrap -->
 
 <!-- DOTS NAV -->
-<div class="dots-nav">
-  <div class="dot active"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
+<div class="dots-nav" id="dotsNav">
+  <div class="dot active" data-target="sec-hero" title="Beranda"></div>
+  <div class="dot" data-target="sec-prodi" title="Program Studi"></div>
+  <div class="dot" data-target="sec-news" title="Kabar UAB"></div>
+  <div class="dot" data-target="sec-info" title="Informasi"></div>
 </div>
 
 <!-- AUTO SIGMA / PRODI -->
-<section class="autosigma">
+<section class="autosigma" id="sec-prodi">
   <div class="autosigma-inner">
 
     <!-- KIRI: judul + karakter + tombol -->
@@ -1531,7 +1668,7 @@
 <div class="section-divider"></div>
 
 <!-- KABAR UAB / NEWS -->
-<section class="news-section">
+<section class="news-section" id="sec-news">
   <div class="news-inner">
     <div class="section-header">
       <div>
@@ -1659,7 +1796,7 @@
 </section>
 
 <!-- INFORMASI & PENGUMUMAN -->
-<section class="info-section">
+<section class="info-section" id="sec-info">
   <div class="info-watermark">Informasi</div>
   <div class="info-inner">
     <div class="section-icon-title">
@@ -1841,9 +1978,9 @@
   <div class="rektor-inner">
     <div class="rektor-card">
 
-      <!-- Foto Rektor -->
+      <!-- Foto Rektor (background-image seperti di baru.html) -->
       <div class="rektor-photo-col">
-        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80" alt="Rektor UAB">
+        <div class="rektor-photo-bg" style="background-image: url('https://abm.unipasby.ac.id/wp-content/uploads/2026/02/envato-labs-image-edit.png');"></div>
         <div class="rektor-arrows">
           <button class="rektor-arrow">&#8592;</button>
           <button class="rektor-arrow">&#8594;</button>
@@ -1857,11 +1994,12 @@
           <h2>Rektor Quotes</h2>
         </div>
         <p class="rektor-quote-text">
-          Di tengah era disrupsi, Adi Buana bertransformasi menjadi Universitas berbasis Edutechnopreneur di mana pendidikan, teknologi, dan kewirausahaan menyatu untuk menciptakan nilai nyata bagi kemanusiaan. Kami berkomitmen menghapus sekat akademik agar setiap lulusan tumbuh menjadi job creator dan problem solver yang tidak hanya siap kerja, tetapi mampu menciptakan masa depan melalui karya inovatif. Mari bersama membangun rantai nilai pendidikan ini, menjadikan setiap langkah kita di kampus sebagai ibadah intelektual yang membumi dan bermanfaat bagi bangsa." – Dr. Untung Lasiyono, M.Si. (Rektor)
+          "Di tengah era disrupsi, Adi Buana bertransformasi menjadi Universitas berbasis Edutechnopreneur di mana pendidikan, teknologi, dan kewirausahaan menyatu untuk menciptakan nilai nyata bagi kemanusiaan. Kami berkomitmen menghapus sekat akademik agar setiap lulusan tumbuh menjadi job creator dan problem solver yang tidak hanya siap kerja, tetapi mampu menciptakan masa depan melalui karya inovatif. Mari bersama membangun rantai nilai pendidikan ini, menjadikan setiap langkah kita di kampus sebagai ibadah intelektual yang membumi dan bermanfaat bagi bangsa."
+          <br><br>– Dr. Untung Lasiyono, M.Si. (Rektor)
         </p>
         <div class="rektor-links">
-          <a href="#" class="rektor-link">Profil Rektorat</a>
-          <a href="#" class="rektor-link">Visi &amp; Misi</a>
+          <a href="https://abm.unipasby.ac.id/portfolio/digital-analysis/" class="rektor-link">Profil Rektorat</a>
+          <a href="https://abm.unipasby.ac.id/portfolio-grid/" class="rektor-link">Visi &amp; Misi</a>
         </div>
       </div>
 
@@ -2092,18 +2230,52 @@
     }
   });
 
-  // Sticky header script
+  // Sticky header + Dots Navigator
   document.addEventListener('DOMContentLoaded', () => {
+
+    // ── Sticky header ──
     const siteHeader = document.querySelector('.site-header');
     const hero       = document.querySelector('.hero');
-    window.addEventListener('scroll', () => {
-      const heroBottom = hero.offsetTop + hero.offsetHeight;
-      if (window.scrollY > heroBottom - 100) {
-        siteHeader.classList.add('is-sticky');
-      } else {
-        siteHeader.classList.remove('is-sticky');
-      }
+    if (siteHeader && hero) {
+      window.addEventListener('scroll', () => {
+        const heroBottom = hero.offsetTop + hero.offsetHeight;
+        if (window.scrollY > heroBottom - 100) {
+          siteHeader.classList.add('is-sticky');
+        } else {
+          siteHeader.classList.remove('is-sticky');
+        }
+      });
+    }
+
+    // ── Dots Navigator ──
+    const dots    = document.querySelectorAll('.dot');
+    const sections = ['sec-hero','sec-prodi','sec-news','sec-info']
+                      .map(id => document.getElementById(id))
+                      .filter(Boolean);
+
+    // Klik dot → scroll ke section
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        if (sections[i]) {
+          sections[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
     });
+
+    // Scroll → update dot aktif
+    function updateActiveDot() {
+      const scrollMid = window.scrollY + window.innerHeight / 2;
+      let activeIdx = 0;
+      sections.forEach((sec, i) => {
+        if (sec && sec.offsetTop <= scrollMid) activeIdx = i;
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === activeIdx);
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveDot, { passive: true });
+    updateActiveDot(); // jalankan saat load
   });
 </script>
 </body>

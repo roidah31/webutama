@@ -37,8 +37,8 @@
   .topbar {
     background: transparent;
     color: rgba(255,255,255,.9);
-    font-size: 12px;
-    padding: 6px 0 0;
+    font-size: 12.5px;
+    padding: 10px 0;
     border-bottom: none;
   }
   .topbar-inner {
@@ -48,10 +48,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 40px;
+    gap: 0;
   }
   .topbar span { display: flex; align-items: center; gap: 6px; }
-  .topbar svg { width: 14px; height: 14px; flex-shrink: 0; color: rgba(255,255,255,.8); }
+  .topbar svg { width: 14px; height: 14px; flex-shrink: 0; color: rgba(255,255,255,.7); }
+  .topbar-divider { color: rgba(255,255,255,.3); margin: 0 24px; font-size: 18px; line-height: 1; user-select: none; }
+  .topbar strong { font-weight: 700; color: #fff; }
+  .topbar .topbar-light { color: rgba(255,255,255,.65); font-weight: 400; }
 
   /* ── HERO WRAP ── */
   .hero-wrap {
@@ -62,21 +65,45 @@
     padding: 0;
   }
 
-  /* ── SITE HEADER (melayang di atas hero) ── */
+  .hero-video-container #yt-player {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Paksa ukuran lebih besar dari viewport agar tidak ada letterbox */
+  width: 177.78vh;  /* 16/9 * 100vh */
+  height: 56.25vw; /* 9/16 * 100vw */
+  min-width: 100%;
+  min-height: 100%;
+  pointer-events: none; /* Disable klik ke iframe */
+}
+
+.hero-video-container #yt-player iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+  /* ── SITE HEADER ── */
   .site-header {
     position: absolute;
     top: 0; left: 0; right: 0;
     z-index: 200;
-    background: rgba(10,21,53,.35);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: transparent;
   }
   .site-header.is-sticky {
     position: fixed;
     top: 0; left: 0; right: 0;
     animation: slideDown .3s ease;
-    background: rgba(10,21,53,.95);
+    background: rgba(10,21,53,.97);
+    box-shadow: 0 2px 16px rgba(0,0,0,.3);
   }
+  /* Saat sticky: sembunyikan topbar, tampilkan hanya navbar */
+  .site-header.is-sticky .topbar { display: none; }
+  /* Saat sticky: sembunyikan lang switcher & btn-pmb, tampilkan btn-kontak */
+  .site-header.is-sticky .lang-switcher { display: none; }
+  .site-header.is-sticky .btn-pmb { display: none; }
+  .site-header.is-sticky .btn-kontak-sticky { display: flex; }
+  .site-header.is-sticky .nav-hamburger-circle { display: flex; }
   @keyframes slideDown {
     from { transform: translateY(-100%); }
     to   { transform: translateY(0); }
@@ -87,53 +114,74 @@
     background: transparent;
     position: static;
     z-index: 100;
-    box-shadow: none;
-    border-bottom: none;
   }
   .nav-inner {
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: 0 24px;
+    width: 100%;
+    padding: 0;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     gap: 0;
-    height: 64px;
+    height: 70px;
   }
   .logo-wrap {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
-    margin-right: 8px;
+    justify-content: center;
+    padding: 8px 10px 8px 16px;
     text-decoration: none;
+    flex-shrink: 0;
+    gap: 3px;
+    background: transparent;
   }
   .logo-emblem {
-    width: 46px; height: 46px;
+    width: 44px; height: 44px;
     background: var(--gold);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-weight: 900; font-size: 13px; color: var(--navy);
+    font-weight: 900; font-size: 12px; color: var(--navy);
     letter-spacing: -.5px;
     flex-shrink: 0;
   }
-  .logo-text { display: flex; flex-direction: column; line-height: 1; }
-  .logo-text b { color: var(--white); font-size: 15px; font-weight: 800; letter-spacing: .3px; }
-  .logo-text small { color: var(--gold); font-size: 9.5px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
+  .logo-text { display: flex; flex-direction: column; align-items: center; line-height: 1.2; }
+  .logo-text b { color: var(--navy); font-size: 11px; font-weight: 800; letter-spacing: .5px; }
+  .logo-text small { color: var(--navy-mid); font-size: 8px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; }
 
+  /* Center wrapper */
+  .nav-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+  }
+  /* Dark nav section: menu + search, lebar sesuai konten */
+  .nav-dark {
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    border-radius: 0 0 10px 10px;
+  }
+  /* Right group: PMB + flag */
+  .nav-right-group {
+    display: flex;
+    align-items: stretch;
+    flex-shrink: 0;
+  }
   .nav-menu {
     display: flex;
     align-items: center;
     list-style: none;
     gap: 2px;
     flex: 1;
-    margin-left: 16px;
+    margin: 0; padding: 0;
   }
   .nav-menu li a {
     color: rgba(255,255,255,.88);
     text-decoration: none;
     font-size: 13.5px;
     font-weight: 600;
-    padding: 8px 14px;
-    border-radius: 6px;
+    padding: 8px 16px;
     display: flex; align-items: center; gap: 4px;
     transition: background .18s, color .18s;
     white-space: nowrap;
@@ -141,52 +189,108 @@
   .nav-menu li a:hover { background: rgba(255,255,255,.1); color: var(--gold); }
   .nav-menu li a .chevron { font-size: 9px; opacity: .7; }
 
-  .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-left: auto;
-  }
   .nav-search {
-    background: rgba(255,255,255,.1);
-    border: 1px solid rgba(255,255,255,.15);
-    border-radius: 8px;
-    padding: 7px 12px;
-    display: flex; align-items: center; gap: 8px;
+    background: transparent;
+    border: none;
+    padding: 8px 14px;
+    display: flex; align-items: center;
     cursor: pointer;
     transition: background .2s;
+    flex-shrink: 0;
   }
-  .nav-search:hover { background: rgba(255,255,255,.18); }
-  .nav-search svg { width: 15px; height: 15px; color: rgba(255,255,255,.7); }
+  .nav-search:hover { background: rgba(255,255,255,.1); }
+  .nav-search svg { width: 17px; height: 17px; color: rgba(255,255,255,.8); }
 
   .btn-pmb {
-    background: var(--gold);
-    color: var(--navy);
-    font-weight: 800;
-    font-size: 13px;
-    padding: 9px 20px;
-    border-radius: 8px;
+    background: #0e7490;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 0 28px;
+    border-radius: 0 12px 0 0;
+    margin-left: 30px;
+    align-self: stretch;
     text-decoration: none;
-    display: flex; align-items: center; gap: 6px;
-    transition: background .18s, transform .18s;
+    display: flex; align-items: center; gap: 8px;
+    transition: background .18s;
     white-space: nowrap;
     letter-spacing: .2px;
+    flex-shrink: 0;
   }
-  .btn-pmb:hover { background: var(--gold-light); transform: translateY(-1px); }
-  .btn-pmb svg { width: 14px; height: 14px; }
+  .btn-pmb:hover { background: #0a5f75; }
+  .btn-pmb svg { width: 16px; height: 16px; }
 
-  .lang-flag {
-    display: flex; align-items: center; gap: 6px;
-    padding: 6px 10px;
-    border-radius: 7px;
-    border: 1px solid rgba(255,255,255,.2);
-    cursor: pointer;
-    font-size: 11px; color: rgba(255,255,255,.75);
-    font-weight: 600;
+  /* ── KONTAK KAMI (sticky only) ── */
+  .btn-kontak-sticky {
+    display: none; /* hidden by default, shown when is-sticky */
+    align-items: center;
+    gap: 8px;
+    background: #2e7fa8;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 0 24px;
+    border-radius: 0 12px 0 0;
+    margin-left: 24px;
+    align-self: stretch;
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: .2px;
+    flex-shrink: 0;
+    transition: background .18s;
   }
-  .flag-icon { width: 22px; height: 14px; border-radius: 2px; overflow: hidden; display: flex; flex-direction: column; }
-  .flag-icon .r { background: #ce1126; flex: 1; }
-  .flag-icon .w { background: #fff; flex: 1; }
+  .btn-kontak-sticky:hover { background: #1c6080; }
+  .btn-kontak-sticky svg { width: 15px; height: 15px; }
+
+  /* ── HAMBURGER CIRCLE (sticky only) ── */
+  .nav-hamburger-circle {
+    display: none; /* hidden by default, shown when is-sticky */
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255,255,255,.55);
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-left: 12px;
+    margin-right: 12px;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .nav-hamburger-circle span {
+    display: block;
+    width: 17px;
+    height: 2px;
+    background: rgba(255,255,255,.85);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  /* ── LANG SWITCHER ── */
+  .lang-switcher {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    margin-left: 25px;
+    cursor: pointer;
+  }
+  .lang-item {
+    opacity: .5;
+    transition: opacity .2s;
+  }
+  .lang-item:hover, .lang-item.active { opacity: 1; }
+
+  /* Flag images */
+  .flag-img {
+    width: 32px;
+    height: 20px;
+    border-radius: 3px;
+    object-fit: cover;
+    box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    display: block;
+  }
 
   /* ── HERO ── */
   .hero {
@@ -542,16 +646,56 @@
   .dots-nav {
     position: fixed; right: 20px; top: 50%;
     transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 8px;
-    z-index: 50;
+    display: flex; flex-direction: column; gap: 10px;
+    z-index: 300;
+    /* Pill background agar terlihat di background apapun */
+    background: rgba(10,21,53,.32);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 20px;
+    padding: 12px 7px;
+    border: 1px solid rgba(255,255,255,.12);
   }
   .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--gray-mid);
-    border: 2px solid #b0bcd8;
-    cursor: pointer; transition: background .2s, transform .2s;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: rgba(255,255,255,.55);
+    border: 2px solid rgba(255,255,255,.9);
+    cursor: pointer;
+    transition: background .25s, transform .25s, width .25s, height .25s;
+    position: relative;
+    /* Shadow ganda: putih dalam + gelap luar → terlihat di semua bg */
+    box-shadow: 0 0 0 1.5px rgba(10,21,53,.35), 0 1px 4px rgba(0,0,0,.25);
   }
-  .dot.active { background: var(--navy); transform: scale(1.4); }
+  .dot:hover {
+    background: rgba(255,255,255,.95);
+    transform: scale(1.25);
+  }
+  .dot.active {
+    background: #fff;
+    border-color: #fff;
+    width: 10px; height: 28px;
+    border-radius: 6px;
+    transform: none;
+    box-shadow: 0 0 0 1.5px rgba(10,21,53,.35), 0 2px 8px rgba(0,0,0,.3);
+  }
+  /* Tooltip label saat hover */
+  .dot::after {
+    content: attr(title);
+    position: absolute;
+    right: 20px; top: 50%;
+    transform: translateY(-50%);
+    background: rgba(10,21,53,.85);
+    color: #fff;
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .dot:hover::after { opacity: 1; }
 
   /* ── SECTION DIVIDER ── */
   .section-divider {
@@ -1151,6 +1295,143 @@
     font-size: 11.5px; color: rgba(255,255,255,.35);
     text-align: center;
   }
+
+  /* ═══════════════════════════════════════
+     HAMBURGER & MOBILE MENU
+  ═══════════════════════════════════════ */
+  .nav-mobile-bar { display: none; }
+  .mobile-menu { display: none; }
+
+  /* ═══════════════════════════════════════
+     RESPONSIVE — TABLET (max 1024px)
+  ═══════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    .news-grid { grid-template-columns: repeat(2, 1fr); }
+    .rubik-grid { grid-template-columns: repeat(2, 1fr); }
+    .autosigma-inner { grid-template-columns: 1fr; gap: 32px; }
+    .rantai-inner { grid-template-columns: 1fr; gap: 32px; }
+    .rektor-card { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .nav-menu li a { padding: 8px 10px; font-size: 12.5px; }
+  }
+
+  /* ═══════════════════════════════════════
+     RESPONSIVE — MOBILE (max 768px)
+  ═══════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* ── Topbar ── */
+    .topbar { display: none; }
+
+    /* ── Navbar ── */
+    .nav-mobile-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      width: 100%;
+      height: 60px;
+    }
+    .logo-wrap-mobile { display: flex; align-items: center; }
+    .nav-center { display: none; }
+    .nav-inner { height: 60px; }
+
+    /* Hamburger button */
+    .nav-hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 26px; height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: all .3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* Mobile dropdown menu */
+    .mobile-menu {
+      display: none;
+      background: rgba(10,21,53,.97);
+      backdrop-filter: blur(10px);
+      padding: 8px 0 20px;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-nav-list { list-style: none; }
+    .mobile-nav-list li a {
+      display: block;
+      color: rgba(255,255,255,.88);
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      transition: background .18s;
+    }
+    .mobile-nav-list li a:hover { background: rgba(255,255,255,.07); }
+    .mobile-menu-footer {
+      padding: 16px 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .mobile-btn-pmb {
+      background: #0e7490;
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+    }
+    .mobile-lang {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,.75);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .mobile-lang-sep { color: rgba(255,255,255,.3); }
+
+    /* ── Hero ── */
+    .hero { height: 100svh; min-height: 500px; }
+    .hero-inner { padding-bottom: 40px; padding-left: 16px; padding-right: 16px; }
+    .hero-inner h1 { font-size: 36px; line-height: 1.15; }
+    .hero-badge { font-size: 10px; letter-spacing: 1px; }
+
+    /* ── Content sections padding ── */
+    .autosigma, .news-section, .info-section,
+    .rubik-section, .aset-section, .rantai-section,
+    .rektor-section, .eksistensi-section, .mitra-section {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    /* ── Grids → single column ── */
+    .news-grid { grid-template-columns: 1fr; gap: 16px; }
+    .info-grid { grid-template-columns: 1fr; column-gap: 0; row-gap: 24px; }
+    .rubik-grid { grid-template-columns: 1fr; gap: 16px; }
+    .autosigma-inner { grid-template-columns: 1fr; gap: 24px; }
+    .rantai-inner { grid-template-columns: 1fr; gap: 24px; }
+    .rektor-card { grid-template-columns: 1fr; }
+    .aset-buttons { grid-template-columns: 1fr; }
+
+    /* ── Footer ── */
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+
+    /* ── Dots nav (hide on mobile) ── */
+    .dots-nav { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -1162,8 +1443,9 @@
   <div class="topbar-inner">
     <span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.17a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 6.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 13.92z"/></svg>
-      Kontak Kami: Pusat Kontak (Senin s.d Jumat)
+      <strong>Kontak Kami: Pusat Kontak</strong>&nbsp;<span class="topbar-light">(Senin s.d Jumat)</span>
     </span>
+    <span class="topbar-divider">|</span>
     <span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
       Jl. Dukuh Menanggal 4/XII Kota Surabaya
@@ -1174,49 +1456,99 @@
 <!-- NAVBAR -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="logo-wrap">
-      <img src="logo.png" alt="UAB Universitas Adi Buana"
-           style="height: 46px; width: auto; object-fit: contain; display: block;"
-           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-      <!-- Fallback teks jika logo.png belum ada -->
-      <div style="display:none; align-items:center; gap:10px;">
-        <div class="logo-emblem">UAB</div>
-        <div class="logo-text"><b>ADI BUANA</b><small>Universitas</small></div>
-      </div>
-    </a>
+    <!-- Hamburger (mobile only) -->
+    <div class="nav-mobile-bar">
+      <a href="#" class="logo-wrap-mobile">
+        <img src="logo2.png" alt="UAB" style="height:44px;width:auto;object-fit:contain;"
+             onerror="this.style.display='none'">
+      </a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
 
-    <ul class="nav-menu">
-      <li><a href="#">Layanan <span class="chevron">▾</span></a></li>
-      <li><a href="#">Tentang <span class="chevron">▾</span></a></li>
-      <li><a href="#">Mahasiswa & Alumni <span class="chevron">▾</span></a></li>
-      <li><a href="#">Pengabdian & Penelitian <span class="chevron">▾</span></a></li>
-    </ul>
-
-    <div class="nav-right">
-      <div class="nav-search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <!-- Menu + Search (dark section) centered -->
+    <div class="nav-center">
+      <!-- Logo -->
+      <a href="#" class="logo-wrap">
+        <img src="logo2.png" alt="UAB Universitas Adi Buana"
+             style="height: 72px; width: auto; object-fit: contain; display: block;"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div style="display:none; flex-direction:column; align-items:center; gap:2px;">
+          <div class="logo-emblem">UAB</div>
+          <div class="logo-text"><b>ADI BUANA</b><small>UNIVERSITAS</small></div>
+        </div>
+      </a>
+      <div class="nav-dark">
+        <ul class="nav-menu">
+          <li><a href="#">Layanan <span class="chevron">+</span></a></li>
+          <li><a href="#">Tentang <span class="chevron">+</span></a></li>
+          <li><a href="#">Mahasiswa & Alumni <span class="chevron">+</span></a></li>
+          <li><a href="#">Pengabdian & Penelitian <span class="chevron">+</span></a></li>
+        </ul>
+        <div class="nav-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </div>
       </div>
       <a href="#" class="btn-pmb">
         Info PMB
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
       </a>
-      <div class="lang-flag">
-        <div class="flag-icon"><div class="r"></div><div class="w"></div></div>
-        ID
+
+      <!-- Lang switcher: dua bendera ditumpuk -->
+      <div class="lang-switcher">
+        <div class="lang-item active" title="Bahasa Indonesia">
+          <img src="https://flagcdn.com/w40/id.png" alt="Indonesia" class="flag-img">
+        </div>
+        <div class="lang-item" title="English">
+          <img src="https://flagcdn.com/w40/us.png" alt="English" class="flag-img">
+        </div>
+      </div>
+
+      <!-- Kontak Kami — hanya tampil saat sticky -->
+      <a href="#" class="btn-kontak-sticky">
+        Kontak Kami
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+
+      <!-- Hamburger circle — hanya tampil saat sticky -->
+      <div class="nav-hamburger-circle">
+        <span></span><span></span><span></span>
       </div>
     </div>
   </div>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul class="mobile-nav-list">
+    <li><a href="#">Layanan</a></li>
+    <li><a href="#">Tentang</a></li>
+    <li><a href="#">Mahasiswa & Alumni</a></li>
+    <li><a href="#">Pengabdian & Penelitian</a></li>
+  </ul>
+  <div class="mobile-menu-footer">
+    <a href="#" class="mobile-btn-pmb">Info PMB ↗</a>
+    <div class="mobile-lang">
+      <img src="https://flagcdn.com/w40/id.png" alt="Indonesia" class="flag-img">
+      <span>ID</span>
+      <span class="mobile-lang-sep">/</span>
+      <img src="https://flagcdn.com/w40/us.png" alt="English" class="flag-img">
+      <span>EN</span>
+    </div>
+  </div>
+</div>
 </header>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="sec-hero">
   <!-- VIDEO BACKGROUND: ganti YOUR_VIDEO_ID dengan ID video YouTube kampus UAB -->
   <!-- Contoh: https://www.youtube.com/watch?v=ABC123 → pakai ABC123 sebagai YOUR_VIDEO_ID -->
   <div class="hero-video-container">
-    <video autoplay muted loop playsinline>
-      <source src="movie.mp4" type="video/mp4">
-    </video>
+      <!-- <video autoplay muted loop playsinline>
+        <source src="movie.mp4" type="video/mp4">
+      </video> -->
+      <div id="yt-player"></div>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-inner">
@@ -1228,66 +1560,74 @@
 </div><!-- /hero-wrap -->
 
 <!-- DOTS NAV -->
-<div class="dots-nav">
-  <div class="dot active"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
+<div class="dots-nav" id="dotsNav">
+  <div class="dot active" data-target="sec-hero" title="Beranda"></div>
+  <div class="dot" data-target="sec-prodi" title="Program Studi"></div>
+  <div class="dot" data-target="sec-news" title="Kabar UAB"></div>
+  <div class="dot" data-target="sec-info" title="Informasi"></div>
 </div>
 
 <!-- AUTO SIGMA / PRODI -->
-<section class="autosigma">
+<section class="autosigma" id="sec-prodi">
   <div class="autosigma-inner">
 
     <!-- KIRI: judul + karakter + tombol -->
     <div class="autosigma-left">
       <!-- Karakter — ganti src dengan path file gambar PNG kamu (2 orang dalam 1 gambar) -->
       <div class="char-left-img">
-        <img src="maskot.png" alt="Karakter UAB"
+        <img src="sigma.png" alt="Karakter UAB"
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="char-placeholder" style="display:none;">Upload<br>maskot.png</div>
       </div>
-      <div class="autosigma-title-wrap">
+      <!-- <div class="autosigma-title-wrap">
         <div class="as-kuliah">Kuliah</div>
         <div class="as-di-uab">di <span class="uab-text">UAB</span> 🔥</div>
         <div class="as-auto">AUTO</div>
         <div class="as-sigma">SIGMA <span class="as-deco">⚡</span></div>
-      </div>
+      </div> -->
       <a href="#" class="btn-daftar">Daftar Sekarang &gt;</a>
     </div>
 
     <!-- KANAN: heading + 5 dropdown rows -->
     <div class="autosigma-right">
       <p class="spill-heading">Kita <em>spill</em> konsentrasi jurusan terkini di UAB</p>
-      <a href="">
+      <a href="https://fkip.unipasby.ac.id/">
       <div class="jurusan-row jr-outline">        
           <span>Career development, Find Art Studio, Fashion Design ....</span>
           <span class="arrow">▼</span> 
       </div>
       </a>
-      <a href=""></a>
-      <div class="jurusan-row jr-red">
+      <a href="https://fts.unipasby.ac.id/">
+        <div class="jurusan-row jr-red">
         
-        <span>Artificial intelligence, Engineering Management, Biodiversitas ...</span>
-        <span class="arrow">▼</span>
-      </div>
-      <a href=""></a>
-      <div class="jurusan-row jr-yellow">
+          <span>Artificial intelligence, Engineering Management, Biodiversitas ...</span>
+          <span class="arrow">▼</span>
+        </div>
+      </a>
+      
+      <a href="https://feb.unipasby.ac.id/">
+        <div class="jurusan-row jr-yellow">
         
-        <span>Marketing and Entrepreneursip, Sustainable Accounting ...</span>
-        <span class="arrow">▼</span>
-      </div>
-      <a href=""></a>
-      <div class="jurusan-row jr-green">
+          <span>Marketing and Entrepreneursip, Sustainable Accounting ...</span>
+          <span class="arrow">▼</span>
+        </div>
+      </a>
+      
+      <a href="https://fikes.unipasby.ac.id/">
+        <div class="jurusan-row jr-green">
         
-        <span>Acupressure Midwifery, Pharmacy - Natural ingredients ...</span>
-        <span class="arrow">▼</span>
-      </div>
-      <a href=""></a>
-      <div class="jurusan-row jr-dark">
-        <span>AI Instructional, Smart Learning Ecosystem, Learning ...</span>
-        <span class="arrow">▼</span>
-      </div>
+          <span>Acupressure Midwifery, Pharmacy - Natural ingredients ...</span>
+          <span class="arrow">▼</span>
+        </div>
+      </a>
+      
+      <a href="">
+        <div class="jurusan-row jr-dark">
+          <span>AI Instructional, Smart Learning Ecosystem, Learning ...</span>
+          <span class="arrow">▼</span>
+        </div>
+      </a>
+      
     </div>
 
   </div>
@@ -1296,7 +1636,7 @@
 <div class="section-divider"></div>
 
 <!-- KABAR UAB / NEWS -->
-<section class="news-section">
+<section class="news-section" id="sec-news">
   <div class="news-inner">
     <div class="section-header">
       <div>
@@ -1424,7 +1764,7 @@
 </section>
 
 <!-- INFORMASI & PENGUMUMAN -->
-<section class="info-section">
+<section class="info-section" id="sec-info">
   <div class="info-watermark">Informasi</div>
   <div class="info-inner">
     <div class="section-icon-title">
@@ -1800,18 +2140,109 @@
   </div>
 </footer>
 
+<!-- YouTube IFrame API -->
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const siteHeader = document.querySelector('.site-header');
-    const heroWrap   = document.querySelector('.hero-wrap');
-    window.addEventListener('scroll', () => {
-      const heroBottom = heroWrap.offsetTop + heroWrap.offsetHeight;
-      if (window.scrollY > heroBottom - 100) {
-        siteHeader.classList.add('is-sticky');
-      } else {
-        siteHeader.classList.remove('is-sticky');
+  var ytPlayer;
+
+  // Callback otomatis dipanggil saat API siap
+  function onYouTubeIframeAPIReady() {
+    var VIDEO_ID = 'lVbn1Wt3Pyw';
+    ytPlayer = new YT.Player('yt-player', {
+      videoId: VIDEO_ID,
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        loop: 1,
+        playlist: VIDEO_ID, // wajib untuk loop
+        controls: 0,
+        showinfo: 0,
+        rel: 0,
+        iv_load_policy: 3,
+        modestbranding: 1,
+        disablekb: 1,
+        fs: 0,
+        playsinline: 1,
+      },
+      events: {
+        onReady: function(e) {
+          e.target.playVideo();
+        },
+        onStateChange: function(e) {
+          // Fallback manual loop jika parameter loop tidak cukup
+          if (e.data === YT.PlayerState.ENDED) {
+            ytPlayer.playVideo();
+          }
+        }
       }
     });
+  }
+
+  // Hamburger menu toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.getElementById('navHamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileMenu.classList.toggle('open');
+      });
+      // Tutup menu saat link diklik
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('open');
+          mobileMenu.classList.remove('open');
+        });
+      });
+    }
+  });
+
+  // Sticky header + Dots Navigator
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // ── Sticky header ──
+    const siteHeader = document.querySelector('.site-header');
+    const hero       = document.querySelector('.hero');
+    if (siteHeader && hero) {
+      window.addEventListener('scroll', () => {
+        const heroBottom = hero.offsetTop + hero.offsetHeight;
+        if (window.scrollY > heroBottom - 100) {
+          siteHeader.classList.add('is-sticky');
+        } else {
+          siteHeader.classList.remove('is-sticky');
+        }
+      });
+    }
+
+    // ── Dots Navigator ──
+    const dots    = document.querySelectorAll('.dot');
+    const sections = ['sec-hero','sec-prodi','sec-news','sec-info']
+                      .map(id => document.getElementById(id))
+                      .filter(Boolean);
+
+    // Klik dot → scroll ke section
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        if (sections[i]) {
+          sections[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Scroll → update dot aktif
+    function updateActiveDot() {
+      const scrollMid = window.scrollY + window.innerHeight / 2;
+      let activeIdx = 0;
+      sections.forEach((sec, i) => {
+        if (sec && sec.offsetTop <= scrollMid) activeIdx = i;
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === activeIdx);
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveDot, { passive: true });
+    updateActiveDot(); // jalankan saat load
   });
 </script>
 </body>
